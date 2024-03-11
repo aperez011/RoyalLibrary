@@ -8,11 +8,17 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /app
+#Libraries
+COPY ["RL.DataAccess/RL.DataAccess.csproj", "RL.DataAccess/"]
+COPY ["RL.Entity/RL.Entity.csproj", "RL.Entity/"]
+COPY ["RL.Share/RL.Share.csproj", "RL.Share/"]
+COPY ["RL.Utility/RL.Utility.csproj", "RL.Utility/"]
+COPY ["RL.Services/RL.Services.csproj", "RL.Services/"]
 COPY ["RL.API/RL.API.csproj", "RL.API/"]
 RUN dotnet restore "./RL.API/RL.API.csproj"
 COPY . .
-WORKDIR "/src/RL.API"
+WORKDIR "/app/RL.API"
 RUN dotnet build "./RL.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
