@@ -18,7 +18,8 @@ namespace RL.Entity.DTOs
     {
         public AuthResponse() { }
 
-        public string EmployeeName { get; set; } = default;
+        public int Id { get; set; } = default;
+        public string DisplayName { get; set; } = default;
         public string UserName { get; set; } = default;
         public string Email { get; set; } = default;
         public string Role { get; set; } = default;

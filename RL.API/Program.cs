@@ -5,6 +5,7 @@ global using RL.Utility.JWT;
 global using RL.Services;
 using RL.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using RL.Utility.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<dbContextRoyalLibrary>(
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<IBookServices, BooksServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+
+//JWT
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IJwtOptions, JwtOptions>();
 
 
 // Add services to the container.

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -40,7 +41,7 @@ namespace RL.API.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorized]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PostUser([FromBody] UserRequest user)
         {
@@ -51,7 +52,7 @@ namespace RL.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         [Authorized]
         [ProducesResponseType(typeof(OperationResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PutUser([FromBody] UserUpdateRequest user)

@@ -66,7 +66,7 @@ namespace RL.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         [Authorized]
         [ProducesResponseType(typeof(OperationResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PutBook([FromBody] BookUpdateRequest user)

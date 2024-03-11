@@ -65,7 +65,7 @@ namespace RL.Services
         {
             try
             {
-                var book = new User
+                var user = new User
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -75,7 +75,7 @@ namespace RL.Services
                     Role = u.Role
                 };
 
-                var resp = await _ctx.PostAsync(book);
+                var resp = await _ctx.PostAsync(user);
 
                 return OperationResult<int>.Success(resp.Data);
             }
