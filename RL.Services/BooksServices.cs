@@ -16,34 +16,135 @@ namespace RL.Services
             _ctx = ctx;
         }
 
-        public Task<OperationResult<HashSet<BookResponse>>> GetAllAsync()
+        public async Task<OperationResult<HashSet<BookResponse>>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var books = await _ctx.GetAllAsync<Book>();
+                var resp = BookToBookResponse(books);
+
+                return OperationResult<HashSet<BookResponse>>.Success(resp);
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<HashSet<BookResponse>>.Fail(ex.Message);
+            }
         }
 
-        public Task<OperationResult<HashSet<BookResponse>>> GetByAsync(Expression<Func<Book, bool>> condition)
+        public async Task<OperationResult<HashSet<BookResponse>>> GetByAsync(Expression<Func<Book, bool>> condition)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var books = await _ctx.GetByAsync<Book>(condition);
+                var resp = BookToBookResponse(books);
+
+                return OperationResult<HashSet<BookResponse>>.Success(resp);
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<HashSet<BookResponse>>.Fail(ex.Message);
+            }
         }
 
-        public Task<OperationResult<BookResponse>> GetByIdAsync(int id)
+        public async Task<OperationResult<BookResponse>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var books = await _ctx.GetByIdAsync<Book>(id);
+                var resp = BookToBookResponse(new HashSet<Book> { books });
+
+                return OperationResult<BookResponse>.Success(resp.Single());
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<BookResponse>.Fail(ex.Message);
+            }
         }
 
-        public Task<OperationResult<int>> PostAsync(BookRequest b)
+        public async Task<OperationResult<int>> PostAsync(BookRequest b)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = new Book
+                {
+                    Title =  b.Title,
+                    Publisher = b.Publisher,
+                    FirstName =  b.FirstName,
+                    LastName =  b.LastName,
+                    TotalCopies = b.TotalCopies,
+                    CopiesInUse = 0,
+                    Type = b.Type,
+                    ISBN = b.ISBN,
+                    Category = b.Category
+                };
+
+                var resp = await _ctx.PostAsync(book);
+
+                return OperationResult<int>.Success(resp.Data);
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<int>.Fail(ex.Message);
+            }
         }
 
-        public Task<OperationResult> PutAsync(BookUpdateRequest b)
+        public async Task<OperationResult> PutAsync(BookUpdateRequest b)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = new Book
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Publisher = b.Publisher,
+                    FirstName = b.FirstName,
+                    LastName = b.LastName,
+                    TotalCopies = b.TotalCopies,
+                    CopiesInUse = 0,
+                    Type = b.Type,
+                    ISBN = b.ISBN,
+                    Category = b.Category
+                };
+
+                var resp = await _ctx.PustAsync(book);
+
+                return OperationResult.Success();
+            }
+            catch (Exception ex)
+            {
+                return OperationResult.Fail(ex.Message);
+            }
         }
 
-        public Task<OperationResult> DeleteAsync(int id)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _ = await _ctx.DeleteAsync<Book>(id);
+                return OperationResult<BookResponse>.Success();
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<BookResponse>.Fail(ex.Message);
+            }
         }
+
+        #region [ Mapping ]
+        private HashSet<BookResponse> BookToBookResponse(HashSet<Book> books)
+        {
+            return books.Select(c =>
+                new BookResponse
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Publisher = c.Publisher,
+                    Author = string.Concat(c.LastName, " ", c.FirstName),
+                    Type =  c.Type,
+                    ISBN =  c.ISBN,
+                    Category =  c.Category,
+                    Avalible = $"{c.TotalCopies - c.CopiesInUse}/{c.TotalCopies}",
+                }).ToHashSet();
+        }
+        #endregion [ Mapping]
     }
 }

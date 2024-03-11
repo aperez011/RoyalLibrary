@@ -18,7 +18,7 @@ namespace RL.API.Controllers
         [HttpGet]
         [Authorized]
         [ProducesResponseType(typeof(HashSet<UserResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromRoute] string entityKey)
+        public async Task<IActionResult> Get()
         {
             var result = await _userServices.GetAllAsync();
             if (!result.IsSuccess)

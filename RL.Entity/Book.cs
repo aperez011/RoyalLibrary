@@ -8,6 +8,8 @@ namespace RL.Entity
 {
     public class Book : BaseProperties
     {
+        public string Title { get; set; } = default;
+        public string Publisher { get; set; } = default;
         public string FirstName { get; set; } = default;
         public string LastName { get; set; } = default;
         public int TotalCopies { get; set; } = default;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,9 +17,9 @@ namespace RL.API.Controllers
         }
 
         [HttpGet]
-        [Authorized]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(HashSet<BookResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromRoute] string entityKey)
+        public async Task<IActionResult> Get()
         {
             var result = await _bookServices.GetAllAsync();
             if (!result.IsSuccess)

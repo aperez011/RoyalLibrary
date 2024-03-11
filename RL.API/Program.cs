@@ -2,8 +2,23 @@ global using RL.Entity.DTOs;
 global using RL.Utility;
 global using RL.Utility.IServices;
 global using RL.Utility.JWT;
+global using RL.Services;
+using RL.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Context
+
+builder.Services.AddDbContext<dbContextRoyalLibrary>(
+        options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+
+
+//Services
+builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IBookServices, BooksServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
+
 
 // Add services to the container.
 
@@ -26,5 +41,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors(x => x.AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .SetIsOriginAllowed(origin => true)
+                  .AllowCredentials()
+           ); 
 
 app.Run();
