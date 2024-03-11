@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RL.DataAccess\RL.DataAccess.csproj" />
+    <ProjectReference Include="..\RL.Share\RL.Share.csproj" />
+    <ProjectReference Include="..\RL.Utility\RL.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
