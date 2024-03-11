@@ -17,7 +17,7 @@ namespace RL.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorized]
         [ProducesResponseType(typeof(HashSet<BookResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
